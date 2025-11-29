@@ -1,0 +1,59 @@
+/* Outer container */
+.bestseller {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+/* Heading text */
+.bestseller-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .bestseller-title {
+    font-size: 1.875rem;
+  }
+}
+
+/* Grid for product cards */
+.bestseller-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 480px) {
+  .bestseller-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 640px) {
+  .bestseller-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .bestseller-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bestseller-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .bestseller-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

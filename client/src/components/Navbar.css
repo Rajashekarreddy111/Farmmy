@@ -1,0 +1,190 @@
+/* Navbar Container */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 4%;
+  border-bottom: 1px solid #d1d5db;
+  background: white;
+  position: relative;
+}
+
+.navbar-logo {
+  height: 40px;
+  cursor: pointer;
+  width: 140px;
+}
+
+/* Desktop Menu */
+.navbar-links {
+  display: none;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .navbar-links {
+    display: flex;
+  }
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: black;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.navbar-links a:hover {
+  color: #4fbf8b;
+}
+
+/* Search Bar */
+.navbar-search {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  padding: 0px 8px;
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+}
+
+.navbar-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  padding-top: 3px;
+  padding-bottom: 10px;
+}
+
+@media (min-width: 1024px) {
+  .navbar-search {
+    display: flex;
+    max-width: 250px;
+  }
+}
+
+/* Cart Icon */
+.navbar-cart {
+  position: relative;
+  cursor: pointer;
+}
+
+.navbar-cart img {
+  width: 24px;
+  opacity: 0.8;
+}
+
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  font-size: 0.7rem;
+  color: white;
+  background: #4fbf8b;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+}
+
+/* Login Button */
+.login-btn {
+  padding: 0.4rem 1.2rem;
+  background: #4fbf8b;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #4fbf8b;
+}
+
+/* Profile Menu */
+.profile-menu {
+  position: relative;
+}
+
+.profile-icon {
+  width: 36px;
+  cursor: pointer;
+}
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  width: 120px;
+  z-index: 50;
+}
+
+.profile-dropdown.show {
+  display: block;
+}
+
+.profile-dropdown li {
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.profile-dropdown li:hover {
+  background: rgba(37, 99, 235, 0.1);
+}
+
+/* Mobile Menu */
+.navbar-mobile {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+@media (min-width: 640px) {
+  .navbar-mobile {
+    display: none;
+  }
+}
+
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: white;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 40;
+}
+
+.mobile-menu a {
+  text-decoration: none;
+  color: black;
+  padding: 8px 0;
+}
+
+.mobile-login {
+  margin-top: 8px;
+  width: fit-content;
+}
+
+.navbar-search input:focus {
+  border: none;
+  box-shadow: none;
+}

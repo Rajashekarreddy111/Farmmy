@@ -1,0 +1,78 @@
+.otp-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f8f9fb;
+}
+
+.otp-box {
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
+  width: 310px;
+  text-align: center;
+  height: 200px;
+}
+
+.otp-box h2 {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.otp-box p {
+  font-size: 0.8rem;
+  margin-bottom: 0.6rem;
+  color: #555;
+}
+
+.otp-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 0.8rem;
+}
+
+.otp-inputs input {
+  width: 40px; /* as requested */
+  height: 40px; /* as requested */
+  font-size: 20px; /* make text tiny to fit */
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  outline: none;
+  padding: 0;
+}
+
+.otp-inputs input:focus {
+  border: 1px solid #4fbf8b;
+}
+
+.verify-btn {
+  background: #4fbf8b;
+  color: #fff;
+  border: none;
+  padding: 0.3rem;
+  width: 100%;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  height: 35px;
+}
+
+.verify-btn:hover {
+  background: #4fbf8b;
+}
+
+.resend-text {
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #666;
+}
+
+.resend {
+  color: #4fbf8b;
+  cursor: pointer;
+  font-weight: 500;
+}
