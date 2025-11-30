@@ -10,7 +10,6 @@ import productRouter from './routes/ProductRoutes.js';
 import cartRouter from './routes/cartRoute.js';
 import adressRouter from './routes/AdressRoute.js';
 import orderRouter from './routes/OrderRoute.js';
-import paymentRouter from './routes/paymentRoutes.js';
 import messageRouter from './routes/messageRoutes.js';
 import newsletterRouter from './routes/newsletterRoutes.js';
 import { createServer } from 'http';
@@ -56,7 +55,6 @@ app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/adress', adressRouter);
 app.use('/api/order', orderRouter);
-app.use('/api/payment', paymentRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/newsletter', newsletterRouter);
 
