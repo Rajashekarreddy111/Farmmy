@@ -33,17 +33,24 @@ const SellerChatDashboard = () => {
         const response = await axios.get("/api/seller/is-auth", {
           withCredentials: true,
         });
-        if (response.data.success && response.data.sellerId) {
+
+        if (response.data && response.data.success && response.data.sellerId) {
           setSellerId(response.data.sellerId);
           // Authenticate socket connection
           authenticateSocket(response.data.sellerId, "seller");
           await fetchConversations();
         } else {
-          toast.error("Please login to access messages");
+          toast.error(
+            response.data?.message || "Please login to access messages"
+          );
+          // Redirect to login if not authenticated
+          window.location.href = "/seller/login";
         }
       } catch (error) {
         toast.error("Please login to access messages");
         console.error("Auth error:", error);
+        // Redirect to login if not authenticated
+        window.location.href = "/seller/login";
       }
     };
 
@@ -132,7 +139,11 @@ const SellerChatDashboard = () => {
           conv &&
           conv._id &&
           conv.product &&
+          conv.product._id &&
+          conv.product.name &&
           conv.otherUser &&
+          conv.otherUser._id &&
+          conv.otherUser.name &&
           conv.lastMessage &&
           conv.lastMessage.content
       ),
@@ -371,10 +382,13 @@ const SellerChatDashboard = () => {
                 // Comprehensive validation before setting conversation
                 if (
                   conv &&
+                  conv._id &&
                   conv.otherUser &&
                   conv.otherUser._id &&
+                  conv.otherUser.name &&
                   conv.product &&
-                  conv.product._id
+                  conv.product._id &&
+                  conv.product.name
                 ) {
                   setSelectedConversation(conv);
                   console.log("Conversation selected successfully");
@@ -397,7 +411,11 @@ const SellerChatDashboard = () => {
                 {conv.otherUser?.name || "Unknown User"}
               </p>
               <p className="text-xs text-gray-500 truncate mt-1">
-                {conv.lastMessage?.content || "No messages"}
+                {conv.lastMessage?.content?.substring(0, 30) || "No messages"}
+                {conv.lastMessage?.content &&
+                conv.lastMessage.content.length > 30
+                  ? "..."
+                  : ""}
               </p>
               {conv.unreadCount > 0 && (
                 <span className="bg-green-600 text-white text-xs rounded-full px-2 py-0.5 mt-1 inline-block">
@@ -457,6 +475,12 @@ const SellerChatDashboard = () => {
                       const isSellerMessage =
                         senderId && sellerId && senderId === sellerId;
 
+                      // Format timestamp safely
+                      const timestamp = msg.createdAt
+                        ? formatTime(msg.createdAt)
+                        : "No timestamp";
+                      const content = msg.content || "No content";
+
                       return (
                         <div
                           key={msg._id || `msg-${index}`}
@@ -471,9 +495,7 @@ const SellerChatDashboard = () => {
                                 : "bg-white text-gray-800 border border-gray-200 rounded-bl-sm"
                             }`}
                           >
-                            <p className="text-sm">
-                              {msg.content || "No content"}
-                            </p>
+                            <p className="text-sm">{content}</p>
                             <p
                               className={`text-xs mt-1 ${
                                 isSellerMessage
@@ -481,9 +503,7 @@ const SellerChatDashboard = () => {
                                   : "text-gray-500"
                               }`}
                             >
-                              {msg.createdAt
-                                ? formatTime(msg.createdAt)
-                                : "No timestamp"}
+                              {timestamp}
                             </p>
                           </div>
                         </div>

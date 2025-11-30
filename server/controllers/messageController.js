@@ -352,11 +352,21 @@ export const getSellerConversations = async (req, res) => {
         }
       },
       {
+        $addFields: {
+          _id: "$lastMessage._id"
+        }
+      },
+      {
         $sort: { "lastMessage.createdAt": -1 }
       }
     ]);
 
-    return res.json({ success: true, data: conversations });
+    // Filter out conversations with missing data
+    const validConversations = conversations.filter(conv => 
+      conv && conv.product && conv.otherUser && conv.lastMessage
+    );
+
+    return res.json({ success: true, data: validConversations });
   } catch (err) {
     return res.json({ success: false, message: err.message });
   }
@@ -382,6 +392,11 @@ export const getSellerProductMessages = async (req, res) => {
       return res.json({ success: false, message: "Product not found" });
     }
 
+    // Verify that the seller owns this product
+    if (product.seller.toString() !== sellerId) {
+      return res.json({ success: false, message: "You don't have permission to view messages for this product" });
+    }
+
     const messages = await Message.find({
       product: productId,
       $or: [
@@ -404,7 +419,12 @@ export const getSellerProductMessages = async (req, res) => {
       { isRead: true }
     );
 
-    return res.json({ success: true, data: messages });
+    // Filter out any invalid messages
+    const validMessages = messages.filter(msg => 
+      msg && msg._id && msg.content && msg.sender && msg.receiver
+    );
+
+    return res.json({ success: true, data: validMessages });
   } catch (err) {
     return res.json({ success: false, message: err.message });
   }

@@ -251,7 +251,7 @@ export const resetSellerPassword = async (req, res) => {
 export const isSellerAuth = async (req, res) => {
   try {
     return res.json({success: true, sellerId: req.seller.id});
-    } catch (error) {
-        return res.json({success: false, message: error.message});
-    }
+  } catch (error) {
+    return res.json({success: false, message: error.message});
+  }
 }
