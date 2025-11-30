@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "./otp.css";
+import "./Otp.css";
 import { useAppContext } from "../context/AppContext";
 import axios from "axios";
 import toast from "react-hot-toast";
