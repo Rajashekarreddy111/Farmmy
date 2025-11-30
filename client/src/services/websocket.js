@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 
 // Initialize Socket.IO client
-const socket = io('http://localhost:4000', {
+const socket = io('https://farmmy.onrender.com', {
   withCredentials: true,
   transports: ['websocket', 'polling']
 });
