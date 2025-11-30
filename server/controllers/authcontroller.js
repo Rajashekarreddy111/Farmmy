@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import userModel from '../models/userModel.js';
 import axios from "axios";
- 
+
 export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -43,10 +43,32 @@ export const register = async (req, res) => {
       const response = await axios.post(
         "https://api.brevo.com/v3/smtp/email",
         {
-          sender: { name: "Hire-a-Helper", email: process.env.SENDER_EMAIL },
+          sender: { name: "Farmmy", email: process.env.SENDER_EMAIL },
           to: [{ email: newUser.email }],
           subject: "WELCOME TO Farmmy",
-          textContent: `Your OTP for email verification is ${otp}. It is valid for 24 hours.`,
+          htmlContent: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <div style="background-color: #4fbf8b; color: white; padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
+                <h1>Welcome to Farmmy!</h1>
+              </div>
+              <div style="background-color: #f9f9f9; padding: 30px; border: 1px solid #eee;">
+                <h2 style="color: #333;">Hello ${newUser.name},</h2>
+                <p>Thank you for registering with Farmmy. We're excited to have you on board!</p>
+                <div style="background-color: #fff; border: 1px solid #eee; padding: 20px; margin: 20px 0; text-align: center;">
+                  <h3 style="color: #4fbf8b;">Your Verification Code:</h3>
+                  <div style="font-size: 32px; font-weight: bold; color: #4fbf8b; letter-spacing: 5px; margin: 20px 0;">
+                    ${otp}
+                  </div>
+                  <p>This code is valid for 24 hours.</p>
+                </div>
+                <p>If you didn't create an account with us, please ignore this email.</p>
+                <p>Best regards,<br/>The Farmmy Team</p>
+              </div>
+              <div style="background-color: #333; color: white; padding: 15px; text-align: center; border-radius: 0 0 10px 10px; font-size: 12px;">
+                <p>© 2025 Farmmy. All rights reserved.</p>
+              </div>
+            </div>
+          `,
         },
         {
           headers: {
@@ -71,7 +93,7 @@ export const register = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 };
- 
+
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -87,7 +109,6 @@ export const login = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
 
 
     if(!isMatch) {
@@ -146,10 +167,32 @@ export const sendVerifyOtp = async (req, res) => {
     await user.save();
 
     await axios.post("https://api.brevo.com/v3/smtp/email", {
-    sender: { name: "Hire-a-Helper", email: process.env.SENDER_EMAIL },
+    sender: { name: "Farmmy", email: process.env.SENDER_EMAIL },
     to: [{ email:user.email }],
-    subject: "WELCOME TO Farmmy",
-     textContent: `Your OTP for email verification is ${otp}. It is valid for 24 hours.`,
+    subject: "Email Verification - Farmmy",
+    htmlContent: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="background-color: #4fbf8b; color: white; padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
+          <h1>Email Verification</h1>
+        </div>
+        <div style="background-color: #f9f9f9; padding: 30px; border: 1px solid #eee;">
+          <h2 style="color: #333;">Hello ${user.name},</h2>
+          <p>You have requested to verify your email address. Please use the following verification code:</p>
+          <div style="background-color: #fff; border: 1px solid #eee; padding: 20px; margin: 20px 0; text-align: center;">
+            <h3 style="color: #4fbf8b;">Your Verification Code:</h3>
+            <div style="font-size: 32px; font-weight: bold; color: #4fbf8b; letter-spacing: 5px; margin: 20px 0;">
+              ${otp}
+            </div>
+            <p>This code is valid for 24 hours.</p>
+          </div>
+          <p>If you didn't request this verification, please ignore this email.</p>
+          <p>Best regards,<br/>The Farmmy Team</p>
+        </div>
+        <div style="background-color: #333; color: white; padding: 15px; text-align: center; border-radius: 0 0 10px 10px; font-size: 12px;">
+          <p>© 2025 Farmmy. All rights reserved.</p>
+        </div>
+      </div>
+    `,
   }, {
     headers: {
       "api-key": process.env.BREVO_API_KEY,
@@ -201,8 +244,8 @@ export const verifyEmail = async (req, res) => {
 
 
 
-}
 
+}
 
 export const isAuthenticated = (req, res) => {
   try {
@@ -235,10 +278,32 @@ export const sendResetOtp = async (req, res) => {
     await user.save();
 
     await axios.post("https://api.brevo.com/v3/smtp/email", {
-    sender: { name: "Farmmy",email: process.env.SENDER_EMAIL },
+    sender: { name: "Farmmy", email: process.env.SENDER_EMAIL },
     to: [{ email:user.email }],
-    subject: "WELCOME TO Farmmy",
-    textContent: `Your OTP for password reset is ${otp}. It is valid for 15 minutes.`,
+    subject: "Password Reset Request - Farmmy",
+    htmlContent: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="background-color: #4fbf8b; color: white; padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
+          <h1>Password Reset</h1>
+        </div>
+        <div style="background-color: #f9f9f9; padding: 30px; border: 1px solid #eee;">
+          <h2 style="color: #333;">Hello ${user.name},</h2>
+          <p>You have requested to reset your password. Please use the following verification code:</p>
+          <div style="background-color: #fff; border: 1px solid #eee; padding: 20px; margin: 20px 0; text-align: center;">
+            <h3 style="color: #4fbf8b;">Your Reset Code:</h3>
+            <div style="font-size: 32px; font-weight: bold; color: #4fbf8b; letter-spacing: 5px; margin: 20px 0;">
+              ${otp}
+            </div>
+            <p style="color: #e74c3c;"><strong>This code is valid for 15 minutes only.</strong></p>
+          </div>
+          <p>If you didn't request a password reset, please ignore this email.</p>
+          <p>Best regards,<br/>The Farmmy Team</p>
+        </div>
+        <div style="background-color: #333; color: white; padding: 15px; text-align: center; border-radius: 0 0 10px 10px; font-size: 12px;">
+          <p>© 2025 Farmmy. All rights reserved.</p>
+        </div>
+      </div>
+    `,
   }, {
     headers: {
       "api-key": process.env.BREVO_API_KEY,
@@ -248,7 +313,6 @@ export const sendResetOtp = async (req, res) => {
       res.json({success: true, message: "OTP sent to your email"});
 
     
-
 
   } catch (error) {
     return res.json({success: false, message: error.message});
@@ -290,6 +354,3 @@ export const resetPassword = async (req, res) => {
       
     }
 }
-
-
-
