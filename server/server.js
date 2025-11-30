@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 4000;
 // Initialize Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "https://farmmy.onrender.com",
+    origin: ["https://farmmy.onrender.com", "https://farmmy-backend.onrender.com"],
     credentials: true
   }
 });
@@ -39,7 +39,7 @@ try {
 }
 
 app.use(cors({
-  origin: "https://farmmy.onrender.com",  
+  origin: ["https://farmmy.onrender.com", "https://farmmy-backend.onrender.com"],  
   credentials: true              
 }));
 app.use(express.json());

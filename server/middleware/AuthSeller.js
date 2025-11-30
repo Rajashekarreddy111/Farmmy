@@ -4,7 +4,7 @@ const AuthSeller = (req, res, next) => {
     const token = req.cookies.sellerToken; // <--- make sure you're using the correct cookie name
 
     if (!token) {
-        return res.json({ success: false, message: "Unauthorized" });
+        return res.json({ success: false, message: "Not authenticated" });
     }
 
     try {
